@@ -1,0 +1,24 @@
+name: Rental Portal Move
+
+on:
+  push:
+    branches: gh-pages
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: pandoc/latex
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Push to staging
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: '.'
+          destination-repository-name: 'staging.github.io'
+          destination-github-username: 'devben'
+          commit_message: 'Deploy'
+          target-branch: 'gh-pages'
